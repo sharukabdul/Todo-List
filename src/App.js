@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Login from "./components/Login";
+import AddTodo from "./components/AddTodo";
+import reducer from './reducers/reducer'
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
+const initValue = {
+  data: []
+}
+
+const store = createStore(reducer, initValue)
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={Login} />
+          <Route exact path='/addtodo/:name' render={(routeParams) =>  <Provider store={store}><AddTodo {...routeParams} /></Provider>}/>
+        </Switch>
+      </BrowserRouter>
+      <Footer />
     </div>
   );
 }
